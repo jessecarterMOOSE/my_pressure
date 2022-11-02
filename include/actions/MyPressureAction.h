@@ -23,4 +23,5 @@ public:
 private:
   const FileName _pressure_file;
   const bool _verbose;
+  const std::vector<VariableName> _displacements;
 };

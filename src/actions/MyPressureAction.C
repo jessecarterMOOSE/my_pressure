@@ -20,6 +20,8 @@ MyPressureAction::validParams()
 {
   InputParameters params = Action::validParams();
   params.addRequiredParam<FileName>("pressure_file", "Name of file containing pressure and surface information.");
+  params.addRequiredParam<std::vector<VariableName>>(
+      "displacements", "The nonlinear displacement variables for the problem");
   params.addParam<bool>("verbose", false, "Print out more information.");
   return params;
 }
@@ -27,7 +29,8 @@ MyPressureAction::validParams()
 MyPressureAction::MyPressureAction(const InputParameters & params)
   : Action(params),
     _pressure_file(getParam<FileName>("pressure_file")),
-    _verbose(getParam<bool>("verbose"))
+    _verbose(getParam<bool>("verbose")),
+    _displacements(getParam<std::vector<VariableName>>("displacements"))
 {
 }
 
@@ -50,6 +53,7 @@ MyPressureAction::act()
     action_params.set<std::vector<BoundaryName>>("boundary") = {boundary_name};
     action_params.set<FunctionName>("function") = function_name;
     action_params.set<Real>("factor") = std::stod(factor_string);
+    action_params.set<std::vector<VariableName>>("displacements") = _displacements;
 
     if (_verbose)
       std::cout<<"allocating action..."<<std::endl;
