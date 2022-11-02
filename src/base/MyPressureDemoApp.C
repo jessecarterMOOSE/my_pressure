@@ -27,6 +27,7 @@ MyPressureDemoApp::registerAll(Factory & f, ActionFactory & af, Syntax & syntax)
   Registry::registerActionsTo(af, {"MyPressureDemoApp"});
 
   /* register custom execute flags, action syntax, etc. here */
+  registerSyntax("MyPressureAction", "MyPressure");
 }
 
 void
